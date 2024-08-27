@@ -22,7 +22,7 @@ app.use("*", (req, res) => {
 //step 4 error handler
 app.use((err, req, res, next) => {
     console.log(err)
-    req.status(500).json({ message: "SERVER RUNNING", error: err.message })
+    res.status(500).json({ message: "SERVER RUNNING", error: err.message })
 
 })
 //step 5 connection
