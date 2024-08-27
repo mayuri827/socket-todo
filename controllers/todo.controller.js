@@ -1,9 +1,12 @@
 const asyncHandler = require("express-async-handler")
 const Todo = require("../model/Todo")
+const { io } = require("../socket/socket")
 
 
 exports.createTodo = asyncHandler(async (req, res) => {
     await Todo.create(req.body)
+    const result = await Todo.find()
+    io.emit("todo-create-response", result)
     res.json({ message: "CreateTodo success" })
 })
 exports.readTodo = asyncHandler(async (req, res) => {
@@ -16,5 +19,7 @@ exports.updeteTodo = asyncHandler(async (req, res) => {
 })
 exports.deleteTodo = asyncHandler(async (req, res) => {
     await Todo.findByIdAndDelete(req.params.id)
+    const result = await Todo.find()
+    io.emit("todo-create-response", result)
     res.json({ message: "DeleteTodo success" })
 })
